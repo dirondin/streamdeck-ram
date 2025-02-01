@@ -1,0 +1,43 @@
+{
+    "SDKVersion": 2,
+    "UUID": "eu.dirondin.streamdeck.ram",
+    "Name": "RAM",
+    "Description": "Displays the current memory usage.",
+    "Icon": "pluginIcon",
+    "Category": "RAM",
+    "CategoryIcon": "categoryIcon",
+    "Version": "1.0.0.0",
+    "Author": "Michail Palubisak",
+    "URL": "https://github.com/dirondin/streamdeck-ram",
+    "CodePath": "ram.exe",
+    "CodePathMac": "ram",
+    "OS": [
+        {
+            "Platform": "mac",
+            "MinimumVersion": "10.11"
+        },
+        {
+            "Platform": "windows",
+            "MinimumVersion": "10"
+        }
+    ],
+    "Software": {
+        "MinimumVersion": "6.5"
+    },
+    "Actions": [
+        {
+            "Icon": "memoryUsageActionIcon",
+            "Name": "Memory usage",
+            "States": [
+                {
+                    "Image": "memoryUsageKeyIcon",
+                    "TitleAlignment": "middle",
+                    "FontSize": 13
+                }
+            ],
+            "SupportedInMultiActions": false,
+            "Tooltip": "Displays the memory usage in percents",
+            "UUID": "eu.dirondin.streamdeck.ram.usage"
+        }
+    ]
+}
