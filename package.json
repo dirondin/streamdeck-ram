@@ -1,9 +1,5 @@
 {
-  "scripts": {
-    "validate": "cd dist & streamdeck validate eu.dirondin.streamdeck.ram.sdPlugin",
-    "pack": "cd dist & streamdeck pack eu.dirondin.streamdeck.ram.sdPlugin -f"
-  },
-  "devDependencies": {
-    "@elgato/cli": "latest"
+  "dependencies": {
+    "@elgato/cli": "^1.1.1"
   }
 }

@@ -2,7 +2,7 @@
 
 This Stream Deck plugin displays the current memory usage of your system. It is designed to provide real-time updates on your Stream Deck device, allowing you to monitor your system's RAM usage at a glance.
 
-![screenshot](design/screenshot.png)
+![screenshot](art/screenshot.png)
 
 ## Features
 
@@ -36,19 +36,23 @@ To build and package the plugin from source using CMake, follow these steps:
     cmake -S . -B build
     ```
 
-3. Build the project and plugin:
+3. Build the project:
     ```sh
-    cmake --build build --target plugin
+    cmake --build build
     ```
 
-4. Validate and package the plugin with Elgato CLI tools:
+4. Prepare the unpacked plugin in the `build` directory:
     ```sh
-    npm i
-    npm run validate
-    nom run pack
+    cmake --build build --target install
     ```
 
-This will generate a `.streamDeckPlugin` file in the `dist` directory, which you can then install by following the installation instructions above.
+5. Validate and package the plugin with Elgato CLI tools (requires installed Node.js):
+    ```sh
+    cmake --build build --target validate
+    cmake --build build --target pack
+    ```
+
+This will generate a `.streamDeckPlugin` file in the `build` directory, which you can then install by following the installation instructions above.
 
 ## Based on
 

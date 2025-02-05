@@ -1,6 +1,6 @@
 #pragma once
 
-#include "PlatformUtils.h"
+#include "../PlatformUtils.h"
 
 class WinPlatformUtils : public PlatformUtils
 {

@@ -1,48 +1,48 @@
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.20)
 
-project(eu.dirondin.streamdeck.ram VERSION 1.0)
+project(
+    eu.dirondin.streamdeck.ram
+    VERSION 1.0.1.0
+    LANGUAGES "CXX"
+)
 
-include("cmake/StreamDeckSDK.cmake")
+set(PLUGIN_UUID ${CMAKE_PROJECT_NAME})
+set(PLUGIN_DIR_NAME ${CMAKE_PROJECT_NAME}.sdPlugin)
 
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CSS_FLAGS_DEBUG "-g")
-set(CMAKE_CSS_FLAGS_DEBUG "-O3")
-set(CXX_STANDARD_REQUIRED true)
-if (MSVC)
-add_definitions("/Zc:__cplusplus" -DUNICODE=1)
-endif()
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED true)
+set(CMAKE_CXX_EXTENSIONS false)
+set(CMAKE_OSX_DEPLOYMENT_TARGET 10.15 CACHE STRING "Minimum MacOS version")
 
-include_directories("${CMAKE_SOURCE_DIR}/src")
+include(cmake/StreamDeckSDK.cmake)
 
 set(
-  SOURCES
-  src/main.cpp
-  src/StreamDeckPlugin.cpp
-  src/ThreadTimer.cpp
+    CMAKE_INSTALL_PREFIX
+    ${PLUGIN_DIR_NAME}
+    CACHE PATH "Default install path"
+    FORCE
 )
 
-set(
-  LIBS
-  StreamDeckSDK
-)
+add_subdirectory(src)
+add_subdirectory(sdPlugin)
 
-if (APPLE)
-  list(APPEND SOURCES src/mac/MacPlatformUtils.cpp)
-elseif (WIN32)
-  list(APPEND SOURCES src/win/WinPlatformUtils.cpp)
+find_program(NPM_BIN NAMES npm)
+if(NPM_BIN)
+    add_custom_target(
+        npm_install
+        COMMAND npm i @elgato/cli --no-save
+        COMMENT "Installing npm dependencies"
+    )
+    add_custom_target(
+        validate
+        DEPENDS npm_install
+        COMMAND npx streamdeck validate ${CMAKE_BINARY_DIR}/${PLUGIN_DIR_NAME}
+    )
+    add_custom_target(
+        pack
+        DEPENDS npm_install
+        COMMAND npx streamdeck pack ${CMAKE_BINARY_DIR}/${PLUGIN_DIR_NAME} -f
+    )
+else()
+    message(WARNING "npm not found, skipping npm targets")
 endif()
-
-add_executable(
-  ram
-  ${SOURCES}
-)
-target_link_libraries(ram ${LIBS})
-
-# Build plugin
-
-add_custom_target(plugin
-  DEPENDS ram
-  COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_SOURCE_DIR}/dist/${CMAKE_PROJECT_NAME}.sdPlugin"
-  COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_SOURCE_DIR}/resources" "${CMAKE_SOURCE_DIR}/dist/${CMAKE_PROJECT_NAME}.sdPlugin"
-  COMMAND ${CMAKE_COMMAND} -E copy "$<TARGET_FILE:ram>" "${CMAKE_SOURCE_DIR}/dist/${CMAKE_PROJECT_NAME}.sdPlugin/"
-)
