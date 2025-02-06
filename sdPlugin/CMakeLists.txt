@@ -1,21 +1,42 @@
-if(APPLE)
-    set(DEFAULT_CODE_PATH_MAC streamdeck-ram)
-elseif(WIN32)
-    set(DEFAULT_CODE_PATH_WIN streamdeck-ram.exe)
+set(CODE_PATH_MAC "" CACHE PATH "Override path to macOS plugin binary")
+set(CODE_PATH_WIN "" CACHE PATH "Override path to Windows plugin binary")
+
+set(CODE_PATH_MAC_NAME "")
+if(NOT CODE_PATH_MAC STREQUAL "")
+    get_filename_component(CODE_PATH_MAC_NAME ${CODE_PATH_MAC} NAME)
+    install(
+        FILES
+        ${CODE_PATH_MAC}
+        DESTINATION .
+    )
+endif()
+set(CODE_PATH_WIN_NAME "")
+if(NOT CODE_PATH_WIN STREQUAL "")
+    get_filename_component(CODE_PATH_WIN_NAME ${CODE_PATH_WIN} NAME)
+    install(
+        FILES
+        ${CODE_PATH_WIN}
+        DESTINATION .
+    )
 endif()
 
-set(CODE_PATH_MAC ${DEFAULT_CODE_PATH_MAC} CACHE STRING "Mac binary code path")
-set(CODE_PATH_WIN ${DEFAULT_CODE_PATH_WIN} CACHE STRING "Windows binary code path")
-
 if(APPLE)
-    set(CODE_PATHS "\"CodePath\": \"${CODE_PATH_MAC}\"")
-    if(NOT CODE_PATH_WIN STREQUAL "")
-        list(APPEND CODE_PATH "\"CodePathWin\": \"${CODE_PATH_WIN}\"")
+    if(CODE_PATH_MAC_NAME STREQUAL "")
+        set(CODE_PATH_MAC_NAME streamdeck-ram)
+    endif()
+
+    set(CODE_PATHS "\"CodePath\": \"${CODE_PATH_MAC_NAME}\"")
+    if(NOT CODE_PATH_WIN_NAME STREQUAL "")
+        list(APPEND CODE_PATH "\"CodePathWin\": \"${CODE_PATH_WIN_NAME}\"")
     endif()
 elseif(WIN32)
-    set(CODE_PATHS "\"CodePath\": \"${CODE_PATH_WIN}\"")
-    if(NOT CODE_PATH_MAC STREQUAL "")
-        list(APPEND CODE_PATHS "\"CodePathMac\": \"${CODE_PATH_MAC}\"")
+    if(CODE_PATH_WIN_NAME STREQUAL "")
+        set(CODE_PATH_WIN_NAME streamdeck-ram.exe)
+    endif()
+
+    set(CODE_PATHS "\"CodePath\": \"${CODE_PATH_WIN_NAME}\"")
+    if(NOT CODE_PATH_MAC_NAME STREQUAL "")
+        list(APPEND CODE_PATHS "\"CodePathMac\": \"${CODE_PATH_MAC_NAME}\"")
     endif()
 endif()
 list(JOIN CODE_PATHS ", " CODE_PATHS)
