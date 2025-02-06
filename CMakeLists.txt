@@ -7,9 +7,7 @@ project(
 )
 
 set(PLUGIN_UUID ${CMAKE_PROJECT_NAME})
-set(PLUGIN_DIR_NAME ${CMAKE_PROJECT_NAME}.sdPlugin)
-
-set(CMAKE_INSTALL_PREFIX ${PLUGIN_DIR_NAME} CACHE PATH "Deploy plugin path")
+set(PLUGIN_DIR_NAME ${PLUGIN_UUID}.sdPlugin)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED true)
@@ -20,27 +18,18 @@ add_definitions("/Zc:__cplusplus" -DUNICODE=1)
 endif()
 
 include(cmake/StreamDeckSDK.cmake)
+include(cmake/StreamDeckDeploy.cmake)
+
+add_streamdeck_deploy_targets(${PLUGIN_DIR_NAME})
+add_streamdeck_distribute_targets(${CMAKE_BINARY_DIR}/${PLUGIN_DIR_NAME})
+add_dependencies(plugin-pack deploy)
+add_dependencies(plugin-validate deploy)
 
 add_subdirectory(src)
 add_subdirectory(sdPlugin)
 
-find_program(NPM_BIN NAMES npm)
-if(NPM_BIN)
-    add_custom_target(
-        npm_install
-        COMMAND npm i @elgato/cli --no-save
-        COMMENT "Installing npm dependencies"
-    )
-    add_custom_target(
-        validate
-        DEPENDS npm_install
-        COMMAND npx streamdeck validate ${CMAKE_BINARY_DIR}/${PLUGIN_DIR_NAME}
-    )
-    add_custom_target(
-        pack
-        DEPENDS npm_install
-        COMMAND npx streamdeck pack ${CMAKE_BINARY_DIR}/${PLUGIN_DIR_NAME} -f
-    )
-else()
-    message(WARNING "npm not found, skipping npm targets")
-endif()
+set_default_install_prefix_to_streamdeck_plugin_dir(${PLUGIN_DIR_NAME})
+install(
+    DIRECTORY ${CMAKE_BINARY_DIR}/${PLUGIN_DIR_NAME}/
+    DESTINATION .
+)

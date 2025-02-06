@@ -41,15 +41,21 @@ To build and package the plugin from source using CMake, follow these steps:
     cmake --build build
     ```
 
-4. Prepare the unpacked plugin in the `build` directory:
+4. Deploy the unpacked plugin in the `build` directory:
     ```sh
-    cmake --build build --target install
+    cmake --build build --target deploy
     ```
 
-5. Validate and package the plugin with Elgato CLI tools (requires installed Node.js):
+5. Validate and package the plugin with Elgato CLI tools (requires installed Node.js) in the `build` directory:
     ```sh
-    cmake --build build --target validate
-    cmake --build build --target pack
+    cmake --build build --target plugin-validate
+    cmake --build build --target plugin-pack
+    ```
+
+6. OPTIONAL: To install the plugin directly to the StreamDeck plugins folder, use the following steps:
+    ```sh
+    cmake -S . -B build -D SET_INSTALL_PREFIX_TO_STREAMDECK_PLUGIN_DIR=ON
+    cmake --build build --target install
     ```
 
 This will generate a `.streamDeckPlugin` file in the `build` directory, which you can then install by following the installation instructions above.

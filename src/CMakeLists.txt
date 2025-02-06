@@ -15,4 +15,6 @@ endif()
 add_executable(streamdeck-ram ${SOURCES})
 target_include_directories(streamdeck-ram PRIVATE .)
 target_link_libraries(streamdeck-ram StreamDeckSDK)
-install(TARGETS streamdeck-ram DESTINATION .)
+
+add_streamdeck_deploy_target(streamdeck-ram)
+
