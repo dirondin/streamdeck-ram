@@ -9,6 +9,8 @@ project(
 set(PLUGIN_UUID ${CMAKE_PROJECT_NAME})
 set(PLUGIN_DIR_NAME ${CMAKE_PROJECT_NAME}.sdPlugin)
 
+set(CMAKE_INSTALL_PREFIX ${PLUGIN_DIR_NAME} CACHE PATH "Deploy plugin path")
+
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED true)
 set(CMAKE_CXX_EXTENSIONS false)
@@ -18,13 +20,6 @@ add_definitions("/Zc:__cplusplus" -DUNICODE=1)
 endif()
 
 include(cmake/StreamDeckSDK.cmake)
-
-set(
-    CMAKE_INSTALL_PREFIX
-    ${PLUGIN_DIR_NAME}
-    CACHE PATH "Default install path"
-    FORCE
-)
 
 add_subdirectory(src)
 add_subdirectory(sdPlugin)

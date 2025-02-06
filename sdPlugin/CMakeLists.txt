@@ -19,7 +19,6 @@ if(NOT CODE_PATH_WIN STREQUAL "")
         DESTINATION .
     )
 endif()
-
 if(APPLE)
     if(CODE_PATH_MAC_NAME STREQUAL "")
         set(CODE_PATH_MAC_NAME streamdeck-ram)
@@ -41,17 +40,21 @@ elseif(WIN32)
 endif()
 list(JOIN CODE_PATHS ", " CODE_PATHS)
 
-configure_file(
-    manifest.in
-    manifest.json
-    NEWLINE_STYLE UNIX
-)
-
 file(GLOB STATIC_FILES *.png *.svg *.json)
+
+file(GLOB CONFIG_FILES *.in)
+foreach(CONFIG_FILE ${CONFIG_FILES})
+    get_filename_component(CONFIG_FILE_NAME ${CONFIG_FILE} NAME_WLE)
+    configure_file(
+        ${CONFIG_FILE}
+        ${CONFIG_FILE_NAME}
+        NEWLINE_STYLE UNIX
+    )
+    list(APPEND STATIC_FILES ${CMAKE_CURRENT_BINARY_DIR}/${CONFIG_FILE_NAME})
+endforeach()
 
 install(
     FILES
     ${STATIC_FILES}
-    ${CMAKE_CURRENT_BINARY_DIR}/manifest.json
     DESTINATION .
 )

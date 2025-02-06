@@ -1,7 +1,7 @@
 {
     "Name": "RAM",
     "Description": "Displays the current memory usage.",
-    "eu.dirondin.streamdeck.ram.usage": {
+    "${PLUGIN_UUID}.usage": {
         "Name": "Memory usage",
         "Tooltip": "Displays the memory usage in percents"
     }
