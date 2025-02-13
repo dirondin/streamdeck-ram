@@ -21,7 +21,7 @@ include(cmake/StreamDeckSDK.cmake)
 include(cmake/StreamDeckDeploy.cmake)
 
 add_streamdeck_deploy_targets(${PLUGIN_DIR_NAME})
-add_streamdeck_distribute_targets(${CMAKE_BINARY_DIR}/${PLUGIN_DIR_NAME})
+add_streamdeck_distribute_targets(${PLUGIN_UUID} ${CMAKE_BINARY_DIR}/${PLUGIN_DIR_NAME})
 add_dependencies(plugin-pack deploy)
 add_dependencies(plugin-validate deploy)
 

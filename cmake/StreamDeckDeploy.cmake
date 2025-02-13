@@ -1,4 +1,6 @@
 function(get_streamdeck_code_paths_json OUTPUT)
+    cmake_parse_arguments(PARSE_ARGV 0 arg "" "MAC;WIN" "")
+
     set(STREAMDECK_CODE_PATH_MAC "" CACHE PATH "Override path to macOS plugin binary")
     set(STREAMDECK_CODE_PATH_WIN "" CACHE PATH "Override path to Windows plugin binary")
 
@@ -13,7 +15,7 @@ function(get_streamdeck_code_paths_json OUTPUT)
 
     if(APPLE)
         if(CODE_PATH_MAC_NAME STREQUAL "")
-            set(CODE_PATH_MAC_NAME streamdeck-ram)
+            set(CODE_PATH_MAC_NAME ${arg_MAC})
         endif()
 
         set(CODE_PATHS "\"CodePath\": \"${CODE_PATH_MAC_NAME}\"")
@@ -22,7 +24,7 @@ function(get_streamdeck_code_paths_json OUTPUT)
         endif()
     elseif(WIN32)
         if(CODE_PATH_WIN_NAME STREQUAL "")
-            set(CODE_PATH_WIN_NAME streamdeck-ram.exe)
+            set(CODE_PATH_WIN_NAME ${arg_WIN})
         endif()
 
         set(CODE_PATHS "\"CodePath\": \"${CODE_PATH_WIN_NAME}\"")
@@ -36,7 +38,7 @@ function(get_streamdeck_code_paths_json OUTPUT)
 endfunction()
 
 
-function(add_streamdeck_distribute_targets PLUGIN_PATH)
+function(add_streamdeck_distribute_targets PLUGIN_UUID PLUGIN_PATH)
     find_program(NPM_BIN NAMES npm)
     if(NPM_BIN)
         add_custom_target(
@@ -53,6 +55,21 @@ function(add_streamdeck_distribute_targets PLUGIN_PATH)
             plugin-pack
             DEPENDS npm-install
             COMMAND npx streamdeck pack ${PLUGIN_PATH} -f
+        )
+        add_custom_target(
+            plugin-link
+            DEPENDS npm-install
+            COMMAND npx streamdeck link ${PLUGIN_PATH}
+        )
+        add_custom_target(
+            plugin-restart
+            DEPENDS npm-install
+            COMMAND npx streamdeck r ${PLUGIN_UUID}
+        )
+        add_custom_target(
+            plugin-stop
+            DEPENDS npm-install
+            COMMAND npx streamdeck s ${PLUGIN_UUID}
         )
     else()
         message(WARNING "npm not found, skipping npm targets")

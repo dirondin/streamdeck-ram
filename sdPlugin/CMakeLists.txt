@@ -1,6 +1,10 @@
-get_streamdeck_code_paths_json(CODE_PATHS)
+get_streamdeck_code_paths_json(
+    CODE_PATHS_JSON
+    MAC "streamdeck-ram"
+    WIN "streamdeck-ram.exe"
+)
 
-file(GLOB STATIC_FILES *.png *.svg *.json)
+file(GLOB STATIC_FILES *.png *.svg *.json *.html)
 
 file(GLOB CONFIG_FILES *.in)
 foreach(CONFIG_FILE ${CONFIG_FILES})

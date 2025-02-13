@@ -9,7 +9,7 @@
     "Version": "${CMAKE_PROJECT_VERSION}",
     "Author": "Michail Palubisak",
     "URL": "https://github.com/dirondin/streamdeck-ram",
-    ${CODE_PATHS},
+    ${CODE_PATHS_JSON},
     "OS": [
         {
             "Platform": "mac",
