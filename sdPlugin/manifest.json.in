@@ -32,10 +32,17 @@
                     "Image": "memoryUsageKeyIcon",
                     "TitleAlignment": "middle",
                     "FontSize": 13
+                },
+                {
+                    "Image": "memoryUsageKeyIcon",
+                    "TitleAlignment": "middle",
+                    "FontSize": 8
                 }
             ],
+            "DisableAutomaticStates": true,
             "SupportedInMultiActions": false,
             "Tooltip": "Displays the memory usage in percents",
+            "PropertyInspectorPath": "usagePropertyInspector.html",
             "UUID": "${PLUGIN_UUID}.usage"
         }
     ]

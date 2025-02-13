@@ -50,9 +50,9 @@ void Plugin::UpdateTimer()
 {
     std::scoped_lock lock(ActionsMutex);
 
-    int currentValue = PlatformUtils->GetTotalRamUsage();
+    const MemInfo& memInfo = PlatformUtils->GetTotalRamUsage();
     for (const auto &[_, action] : Actions)
     {
-        action->UpdateUsage(currentValue);
+        action->UpdateUsage(memInfo);
     }
 }

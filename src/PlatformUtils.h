@@ -2,10 +2,16 @@
 
 #include <cstdint>
 
+struct MemInfo
+{
+    uint64_t total;
+    uint64_t used;
+};
+
 class PlatformUtils
 {
 public:
     virtual ~PlatformUtils() = default;
 
-    virtual uint32_t GetTotalRamUsage() = 0;
+    virtual MemInfo GetTotalRamUsage() = 0;
 };

@@ -2,12 +2,12 @@
 
 #include <windows.h>
 
-uint32_t WinPlatformUtils::GetTotalRamUsage()
+MemInfo WinPlatformUtils::GetTotalRamUsage()
 {
     MEMORYSTATUSEX statex;
     statex.dwLength = sizeof(statex);
 
     GlobalMemoryStatusEx(&statex);
 
-    return static_cast<uint32_t>(statex.dwMemoryLoad);
+    return {statex.ullTotalPhys, statex.ullTotalPhys - statex.ullAvailPhys};
 }
