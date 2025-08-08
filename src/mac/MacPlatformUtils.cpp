@@ -5,7 +5,7 @@
 #include <mach/mach_init.h>
 #include <mach/mach_host.h>
 
-uint32_t MacPlatformUtils::GetTotalRamUsage()
+MemInfo MacPlatformUtils::GetTotalRamUsage()
 {
     vm_size_t page_size;
     vm_statistics64_data_t vm_stats;
@@ -21,8 +21,8 @@ uint32_t MacPlatformUtils::GetTotalRamUsage()
                                       static_cast<uint64_t>(vm_stats.wire_count)) *
                                      static_cast<uint64_t>(page_size);
         const uint32_t usage = used_memory * 100 / (used_memory + free_memory);
-        return usage;
+        return MemInfo{free_memory + used_memory, used_memory};
     }
 
-    return 0;
+    return MemInfo{0, 0};
 }
