@@ -1,5 +1,5 @@
 {
-    "SDKVersion": 2,
+    "SDKVersion": 3,
     "UUID": "${PLUGIN_UUID}",
     "Name": "RAM",
     "Description": "Displays the current memory usage.",
@@ -21,7 +21,7 @@
         }
     ],
     "Software": {
-        "MinimumVersion": "6.5"
+        "MinimumVersion": "6.9"
     },
     "Actions": [
         {
