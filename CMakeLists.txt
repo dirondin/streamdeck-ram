@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.20)
 
 project(
     eu.dirondin.streamdeck.ram
-    VERSION 1.0.3.0
+    VERSION 1.0.4.0
     LANGUAGES "CXX"
 )
 
